@@ -23,7 +23,7 @@ public class GetProductsService implements Query<Void, List<ProductDTO>> {
     public ResponseEntity<List<ProductDTO>> execute(Void input) {
         List<Product> products = productRepository.findAll();
         List<ProductDTO> productDTOs = products.stream().map(ProductDTO::new).toList();
-
+        //No need for exception here, if none found return empty list
         return ResponseEntity.status(HttpStatus.OK).body(productDTOs);
     }
 }
