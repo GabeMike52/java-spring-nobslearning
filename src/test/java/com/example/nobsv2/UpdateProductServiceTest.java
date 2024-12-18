@@ -3,6 +3,7 @@ package com.example.nobsv2;
 import com.example.nobsv2.exceptions.ProductNotFoundException;
 import com.example.nobsv2.product.ProductRepository;
 import com.example.nobsv2.product.model.Product;
+import com.example.nobsv2.product.model.ProductDTO;
 import com.example.nobsv2.product.model.UpdateProductCommand;
 import com.example.nobsv2.product.services.UpdateProductService;
 import org.junit.jupiter.api.Assertions;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
@@ -45,12 +47,12 @@ public class UpdateProductServiceTest {
         when(productRepository.findById(1)).thenReturn(Optional.of(product));
 
         //When
-        updateProductService.execute(updatedProduct);
+        ResponseEntity<ProductDTO> productDTOResponseEntity = updateProductService.execute(updatedProduct);
 
         //Then
-        Assertions.assertEquals("Updated", updatedProduct.getProduct().getName());
-        Assertions.assertEquals("Updated for testing now", updatedProduct.getProduct().getDescription());
-        Assertions.assertEquals(54656.232, updatedProduct.getProduct().getPrice(), 0.001);
+        Assertions.assertEquals(productDTOResponseEntity.getBody().getName(), product.getName());
+        Assertions.assertEquals(productDTOResponseEntity.getBody().getDescription(), product.getDescription());
+        Assertions.assertEquals(productDTOResponseEntity.getBody().getPrice(), product.getPrice());
         verify(productRepository, times(1)).findById(1);
         verify(productRepository, times(1)).save(product);
     }

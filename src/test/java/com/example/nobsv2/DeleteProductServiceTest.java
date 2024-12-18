@@ -3,6 +3,7 @@ package com.example.nobsv2;
 import com.example.nobsv2.exceptions.ProductNotFoundException;
 import com.example.nobsv2.product.ProductRepository;
 import com.example.nobsv2.product.model.Product;
+import com.example.nobsv2.product.model.ProductDTO;
 import com.example.nobsv2.product.services.DeleteProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
@@ -39,9 +41,11 @@ public class DeleteProductServiceTest {
         when(productRepository.findById(1)).thenReturn(Optional.of(product));
 
         //When
-        deleteProductService.execute(1);
+        ResponseEntity<Void> response = deleteProductService.execute(1);
 
         //Then
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(204, response.getStatusCode().value());
         verify(productRepository, times(1)).deleteById(1);
         verify(productRepository, times(1)).findById(1);
     }
