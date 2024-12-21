@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class HeaderController {
     @GetMapping("/header")
     public String getRegionalResponse(@RequestHeader(required = false, defaultValue = "US") String region) {
-        if(region.equals("US")) return "BALD EAGLE FREEDOM";
+        return switch (region) {
+            case "US" -> "BALD EAGLE FREEDOM";
+            case "CAN" -> "LIL PLANTS COLD AND ROBIN FROM HIMYM";
+            case "BR" -> "SAMBA, BITCHES AND CORRUPTION";
+            default -> "Country not supported";
+        };
 
-        if(region.equals("CAN")) return "LIL PLANTS COLD AND ROBIN FROM HIMYM";
-
-        if(region.equals("BR")) return "SAMBA, BITCHES AND CORRUPTION";
-
-        return "Country not supported";
     }
 }
