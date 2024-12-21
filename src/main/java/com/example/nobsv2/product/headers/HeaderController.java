@@ -10,8 +10,8 @@ public class HeaderController {
     public String getRegionalResponse(@RequestHeader(required = false, defaultValue = "US") String region) {
         return switch (region) {
             case "US" -> "BALD EAGLE FREEDOM";
-            case "CAN" -> "LIL PLANTS COLD AND ROBIN FROM HIMYM";
-            case "BR" -> "SAMBA, BITCHES AND CORRUPTION";
+            case "CAN" -> "LIL PLANTS, COLD AND ROBIN FROM HIMYM";
+            case "BR" -> "SAMBA, CAIPIRINHA AND CORRUPTION";
             default -> "Country not supported";
         };
 
