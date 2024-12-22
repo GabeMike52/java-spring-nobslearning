@@ -7,6 +7,8 @@ import com.example.nobsv2.product.model.Product;
 import com.example.nobsv2.product.model.ProductDTO;
 import com.example.nobsv2.product.model.UpdateProductCommand;
 import com.example.nobsv2.product.validators.ProductValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +18,14 @@ import java.util.Optional;
 public class UpdateProductService implements Command<UpdateProductCommand, ProductDTO> {
 
     private final ProductRepository productRepository;
+    private static final Logger logger = LoggerFactory.getLogger(UpdateProductService.class);
     public UpdateProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     @Override
     public ResponseEntity<ProductDTO> execute(UpdateProductCommand command) {
+        logger.info("Executing " + getClass() + " command: " + command);
         Optional<Product> productOptional = productRepository.findById(command.getId());
         if (productOptional.isPresent()) {
             Product product = command.getProduct();
