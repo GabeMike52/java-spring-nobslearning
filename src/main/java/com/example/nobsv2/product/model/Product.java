@@ -25,7 +25,7 @@ public class Product {
     private Double price;
 
 
-    //Getters and Setters
+    //Getters
     public Integer getId() {
         return id;
     }
