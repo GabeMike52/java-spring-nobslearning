@@ -9,6 +9,8 @@ import com.example.nobsv2.product.model.UpdateProductCommand;
 import com.example.nobsv2.product.validators.ProductValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,9 @@ public class UpdateProductService implements Command<UpdateProductCommand, Produ
     }
 
     @Override
+    @CachePut(value = "productCache", key = "#command.getId()")
+    //Evict -> throws the value stored in the cache away, that's it
+    //Put -> throws it away then puts the return value of the method in the cache
     public ResponseEntity<ProductDTO> execute(UpdateProductCommand command) {
         logger.info("Executing " + getClass() + " command: " + command);
         Optional<Product> productOptional = productRepository.findById(command.getId());
