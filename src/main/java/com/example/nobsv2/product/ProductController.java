@@ -53,7 +53,7 @@ public class ProductController {
         return getProductService.execute(id);
     }
 
-    @GetMapping("product/search")
+    @GetMapping("/product/search")
     public ResponseEntity<List<ProductDTO>> searchProductByName(@RequestParam String name) {
         return searchProductService.execute(name);
     }

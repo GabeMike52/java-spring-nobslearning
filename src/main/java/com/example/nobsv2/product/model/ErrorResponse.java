@@ -1,6 +1,7 @@
 package com.example.nobsv2.product.model;
 
-public class ErrorResponse {
+public class
+ErrorResponse {
 
     private String message;
     public ErrorResponse(String message) {

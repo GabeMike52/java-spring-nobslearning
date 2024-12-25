@@ -1,5 +1,6 @@
 package com.example.nobsv2.security;
 
+import com.example.nobsv2.security.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,15 +35,18 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
                    //the user needs to be created new without valid credentials
+                    authorize.requestMatchers("/login").permitAll();
                     authorize.requestMatchers("/createnewuser").permitAll();
 
                     //this needs to be at the bottom
                     authorize.anyRequest().authenticated();
         })
-                .addFilterBefore(
-                        new BasicAuthenticationFilter(authenticationManager(httpSecurity)),
-                        UsernamePasswordAuthenticationFilter.class
-                )
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
     }
 }
